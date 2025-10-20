@@ -1,0 +1,139 @@
+@baseUrl = http://localhost:8080
+@todosPath = /api/v1/todos
+
+###
+
+# Health check
+GET {{baseUrl}}/
+Accept: text/plain
+
+###
+
+# Criar uma tarefa - Desenvolvimento da API (Tomas 4820719)
+# Executar primeiro; o ID retornado é salvo em {{todoId}}
+POST {{baseUrl}}{{todosPath}}
+Content-Type: application/json
+
+{
+  "title": "Desenvolvimento da API",
+  "description": "Implementar endpoints principais e documentação",
+  "dueDate": "2025-12-12",
+  "responsible": "Codex 4820719"
+}
+
+> {% client.global.set("todoId", response.body.id); %}
+
+###
+
+# Criar uma tarefa - Documentar requisitos
+POST {{baseUrl}}{{todosPath}}
+Content-Type: application/json
+
+{
+  "title": "Documentar requisitos",
+  "description": "Consolidar regras de negócio do módulo TODO",
+  "dueDate": "2025-09-01",
+  "responsible": "Tomas 4820719"
+}
+
+###
+
+# Criar uma tarefa - Revisar testes
+POST {{baseUrl}}{{todosPath}}
+Content-Type: application/json
+
+{
+  "title": "Revisar testes automatizados",
+  "description": "Cobrir cenários de erro e sucesso",
+  "dueDate": "2025-10-15",
+  "responsible": "Tomas 4820719"
+}
+
+###
+
+# Caso de erro - título obrigatório
+POST {{baseUrl}}{{todosPath}}
+Content-Type: application/json
+
+{
+  "title": "",
+  "description": "Descrição qualquer",
+  "dueDate": "2025-12-12",
+  "responsible": "Tomas 4820719"
+}
+
+###
+
+# Caso de erro - data passada
+POST {{baseUrl}}{{todosPath}}
+Content-Type: application/json
+
+{
+  "title": "Título válido",
+  "description": "Descrição válida",
+  "dueDate": "2023-01-01",
+  "responsible": "Tomas 4820719"
+}
+
+###
+
+# Consultar todas as tarefas cadastradas
+GET {{baseUrl}}{{todosPath}}
+Accept: application/json
+
+###
+
+# Consultar tarefa específica pelo ID
+GET {{baseUrl}}{{todosPath}}/{{todoId}}
+Accept: application/json
+
+###
+
+# Atualizar tarefa existente
+PUT {{baseUrl}}{{todosPath}}/{{todoId}}
+Content-Type: application/json
+
+{
+  "title": "Desenvolvimento da API - Entrega final",
+  "description": "Atualizar backlog com novos requisitos",
+  "dueDate": "2025-12-20",
+  "responsible": "Tomas 4820719"
+}
+
+###
+
+# Atualizar tarefa - caso de erro (responsável vazio)
+PUT {{baseUrl}}{{todosPath}}/{{todoId}}
+Content-Type: application/json
+
+{
+  "responsible": ""
+}
+
+###
+
+# Remover tarefa existente
+DELETE {{baseUrl}}{{todosPath}}/{{todoId}}
+
+###
+
+# Consultar tarefa inexistente (espera 404)
+GET {{baseUrl}}{{todosPath}}/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+###
+
+# Atualizar tarefa inexistente (espera 404)
+PUT {{baseUrl}}{{todosPath}}/00000000-0000-0000-0000-000000000000
+Content-Type: application/json
+
+{
+  "title": "Qualquer título"
+}
+
+###
+
+# Remover tarefa inexistente (espera 404)
+DELETE {{baseUrl}}{{todosPath}}/00000000-0000-0000-0000-000000000000
+
+###
