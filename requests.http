@@ -1,6 +1,8 @@
 @baseUrl = http://localhost:8080
 @todosPath = /api/v1/todos
 
+@todoId = da2b5aef-f8a9-436f-9f4e-1d07b2d5ea5a
+
 ###
 
 # Health check
